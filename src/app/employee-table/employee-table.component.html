@@ -1,0 +1,26 @@
+
+<h3>Employees </h3>
+<button id="an" (click)="openDialog()">+ Add New</button>
+ <table border="1">
+     <tr>
+        <th>Id</th>
+        <th>fio</th>
+        <th>birthdata</th>
+        <th>job</th>
+        <th>slary</th>
+        <th>functions</th>
+     </tr>
+     <tr *ngFor="let item of data">       
+         <td>{{item._id}}</td>
+         <td>{{item.fio}}</td>
+         <td>{{item.birthdata}}</td>
+         <td>{{item.job}}</td>
+         <td>{{item.salary}}</td>
+         <td><button (click)="update(item)">Update
+             </button>
+             <button (click)="update(item)">Delete
+                </button>
+         </td>
+     </tr>
+ </table>
+ 
