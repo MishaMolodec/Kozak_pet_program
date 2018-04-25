@@ -49,7 +49,7 @@ router.post('/employees', function(req, res, next){
     });
 })
 
-router.put('/employee/:id', function(req, res, next){
+router.put('/employees/:id', function(req, res, next){
     console.log('Update an employee');
     Employee.findByIdAndUpdate(req.params.id,
     {
@@ -68,7 +68,7 @@ router.put('/employee/:id', function(req, res, next){
     )
 })
 
-router.delete('/employee/:id', function(req, res, next){
+router.delete('/employees/:id', function(req, res, next){
     console.log('Deleting an employee');
     Employee.findByIdAndRemove(req.params.id, function(err, deletedEmployee){
         if(err){
