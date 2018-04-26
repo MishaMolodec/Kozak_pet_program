@@ -10,19 +10,29 @@ mongoose.connect(db, function(err){
     }
 });
 
-router.get('/employees', function(req, res, next){
-    console.log('Get request for all employees');
-    Employee.find({})
-    .exec(function(err, employees){
-        if(err){
-            console.log(err)
-            res.status(500).send("Error retrieving employees");
-        }else{
-            res.json(employees);
-        }
-    })
 
-})
+
+
+router.get('/employees', async function(req, res, next){
+    console.log('Get request for all employees', req.query);
+    try{
+    const data = await Employee.find({});
+    const total = await Employee.count({});
+    res.json({total, data});
+   
+    }catch(err){
+      res.staus(500).send("Error ");
+        }
+    // .exec(function(err, employees){
+    //     if(err){
+    //         console.log(err)
+    //         res.status(500).send("Error retrieving employees");
+    //     }else{
+    //         res.json(employees);
+    //     }
+    // })
+
+});
 
 router.get('/employees/:id', function(req, res, next){
     console.log('Get request for a single employee');
