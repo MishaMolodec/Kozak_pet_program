@@ -15,13 +15,17 @@ mongoose.connect(db, function(err){
 
 router.get('/employees', async function(req, res, next){
     console.log('Get request for all employees', req.query);
+    const skip = parseInt(req.query.skip);
+    const limit = parseInt(req.query.limit);
     try{
-    const data = await Employee.find({});
+    const data = await Employee.find({},{},{skip,limit});
     const total = await Employee.count({});
+    
     res.json({total, data});
    
     }catch(err){
-      res.staus(500).send("Error ");
+        console.log(err);
+      res.status(500).send("Error ");
         }
     // .exec(function(err, employees){
     //     if(err){
