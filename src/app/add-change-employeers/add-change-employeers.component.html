@@ -1,21 +1,51 @@
-<form>
-  <div class="form-group">
-    
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-  </div>
-  <div class="form-group">
-  
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-    <button (click)="update(item)">Update
-    </button>
-    <button (click)="update(item)">Delete
-       </button>
-      
-      <button (click)="close()">Close
-         </button>
-  </div>
-</form>
-      
+
+
+
+
+
+
+
+
+<div class="modal-header">
+  <h4 class="modal-title">Hi there!</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="dataForm">
+    <div class="form-group">
+
+      <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="fio" formControlName="fio">
+
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd" ngbDatepicker #d="ngbDatepicker" formControlName="birthdata">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary cal-btn" (click)="d.toggle()" type="button">
+            <img src="assets/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+
+      <input type="text" class="form-control"  aria-describedby="emailHelp" placeholder="job" formControlName="job">
+
+    </div>
+    <div class="form-group">
+
+      <input type="number" class="form-control"  placeholder="salary" formControlName="salary">
+    </div>
+
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-outline-dark" *ngIf="!data" (click)="post()" matButton>Add </button>
+  <button class="btn btn-outline-dark" *ngIf="data" (click)="put()" matButton>Update</button>
+
+  <button class="btn btn-outline-dark" (click)="closeDialog()" matButton>Close</button>
+</div>
+

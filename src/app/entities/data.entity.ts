@@ -1,6 +1,6 @@
 export class Data {
 
-    _id: String;
+    id: Number;
     fio: String;
     birthdata: Date;
     job: String;

@@ -1,37 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import {Component, OnInit, Input} from '@angular/core';
 import  {DataService} from '../services/data.service';
-import { Data } from '../entities/data.entity';
 import { AddChangeEmployeersComponent } from '../add-change-employeers/add-change-employeers.component';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-employee-table',
   templateUrl: './employee-table.component.html',
-  styleUrls: ['./employee-table.component.less']
+  styleUrls: ['./employee-table.component.scss']
 })
 export class EmployeeTableComponent implements OnInit {
- 
-  data: Data[];
+  closeResult: string;
+  skip: number = 0;
+ total: number;
+ limit: number = 5;
 
+data : any[];
 
-
-  constructor( private dataService: DataService, public dialog: MatDialog,
-
+  constructor( private dataService: DataService,private modalService: NgbModal
   ) {   }
-    
-  
-  
+
+
+
   ngOnInit() {
     this.loadData();
+
   }
 
- 
+ recalc({skip,limit}){
+   this.skip = skip;
+   this.limit = limit;
+   this.loadData();
+
+ }
 
 loadData(): void {
-  this.dataService.findAll().subscribe(
-    res=>{
-      this.data = res;
-     
+
+
+  this.dataService.findAll({limit:this.limit, skip: this.skip}).subscribe(
+    ({data, total})=>{
+      // console.log('DATA', res);
+      this.data = data;
+      this.total = total;
+      console.log(total, data);
     },
     error => {
        console.log(error);
@@ -39,23 +49,36 @@ loadData(): void {
   );
 }
 
-openDialog(): void {
-  let dialogRef = this.dialog.open(AddChangeEmployeersComponent, {
- //   width: '100px',
-  // height: '100px'
-  });
+openAddDialog(): void {
+  let dialogRef = this.modalService.open(AddChangeEmployeersComponent, {});
 
-  this.dataService.dialogRef = dialogRef;
-
-
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('The dialog was closed');
-   
-  });
+  dialogRef.result.then(result => {
+    if(result){
+      this.loadData();
+    }
+   });
 
 
 }
 
+openUpdateDialog(data):void{
+  let dialogRef = this.modalService.open(AddChangeEmployeersComponent);
+
+  dialogRef.componentInstance.data = data;
+  dialogRef.result.then(result => {
+    if(result){
+      this.loadData();
+    }
+  });
+  }
+
+
+ delete(id){
+   this.dataService.delete(id).subscribe(()=>{
+     this.skip = 0;
+     this.loadData();
+   });
+ }
 }
 
-    
+

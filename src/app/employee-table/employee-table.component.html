@@ -1,26 +1,38 @@
 
 <h3>Employees </h3>
-<button id="an" (click)="openDialog()">+ Add New</button>
- <table border="1">
+<div id="fb">
+<button  class="btn btn-success" (click)="openAddDialog()">+ Add New</button>
+<table class="table table-bordered">
+  <thead>
      <tr>
         <th>Id</th>
         <th>fio</th>
         <th>birthdata</th>
         <th>job</th>
-        <th>slary</th>
+        <th>salary</th>
         <th>functions</th>
-     </tr>
-     <tr *ngFor="let item of data">       
+      </tr>
+      </thead>
+      <tbody>
+     <tr *ngFor="let item of data">
          <td>{{item._id}}</td>
          <td>{{item.fio}}</td>
-         <td>{{item.birthdata}}</td>
+         <td>{{item.birthdata | date: 'shortDate' }}</td>
          <td>{{item.job}}</td>
          <td>{{item.salary}}</td>
-         <td><button (click)="update(item)">Update
+         <td><button (click)="openUpdateDialog(item)">Update
              </button>
-             <button (click)="update(item)">Delete
-                </button>
+             <button (click)="delete(item._id)">Delete</button>
+
          </td>
-     </tr>
- </table>
- 
+        </tr>
+      </tbody>
+    </table>
+ <ng-container  *ngIf="total && total>limit">
+
+
+ <app-pagention [limit]="limit" [total]="total" (pageQuery)="recalc($event)"> </app-pagention>
+</ng-container>
+
+</div>
+
