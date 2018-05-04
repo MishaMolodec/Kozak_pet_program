@@ -26,3 +26,7 @@ $theme: mat-light-theme($primary, $accent);
   opacity: 0.5;
 }
 
+.modal-dialog{
+  width : 240px !important;
+  position : absolute  !important;
+}

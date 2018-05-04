@@ -13,16 +13,24 @@ mongoose.connect(db, function(err){
 
 
 
+
 router.get('/employees', async function(req, res, next){
     console.log('Get request for all employees', req.query);
     const skip = parseInt(req.query.skip);
     const limit = parseInt(req.query.limit);
+    let query = {};
+
+    const filter = req.query.filter;
+    if(filter){
+      query = query.select = {fio : filter.fio, birthdata: filter.birthdata, job: filter.job, salary:filter.salary};
+      console.log("query="+query);
+    }
     try{
-    const data = await Employee.find({},{},{skip,limit});
+    const data = await Employee.find(query,{},{skip,limit});
     const total = await Employee.count({});
-    
+
     res.json({total, data});
-   
+
     }catch(err){
         console.log(err);
       res.status(500).send("Error ");
@@ -49,7 +57,7 @@ router.get('/employees/:id', function(req, res, next){
         }
     })
 })
-    
+
 router.post('/employees', function(req, res, next){
     console.log('Post a employee');
     var newEmployee = new Employee(req.body);
